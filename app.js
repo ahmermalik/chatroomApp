@@ -76,9 +76,9 @@ client.on('disconnect', function () {
 // });
 //
 // module.exports = app;
+var PORT = process.env.PORT || 8000;
 
-
-http.listen(8000, function () {             //since we're using web socket, it will not be app.listen, but instead http.listen
+http.listen(PORT, function () {             //since we're using web socket, it will not be app.listen, but instead http.listen
     console.log('Listening on port 8000');
 });
 
