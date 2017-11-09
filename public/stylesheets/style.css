@@ -1,0 +1,53 @@
+body {
+  background: #e5e5e5;
+  background-color: lightcyan;
+  color: #272727;
+  font-family: 'Nunito', sans-serif;
+}
+
+h1{
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#message-bar-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+ /*this is the user input box */
+#message{
+  color:red;
+  text-align: center;
+  width: 100%;
+}
+
+#send-btn {
+  position: fixed;
+  width: 80px;
+  bottom: 0;
+  right: 0;
+}
+
+ /*this is for the chat window*/
+#chat-box{
+  width: 100%;
+  color: blue;
+  text-align: CENTER;
+  border-style: dashed;
+  height: 100%;
+  margin: auto;
+}
+
+body, #chat-container, html {
+  height: 100%;
+  width: 100%;
+}
+
+#chat-container {
+  padding-bottom: 40px;
+}

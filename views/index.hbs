@@ -1,0 +1,51 @@
+<title>Chat App</title>
+<h1>Chat App</h1>
+
+<div id="chat-container">
+    <pre id="chat-box"></pre>
+
+    <div id="message-bar-container">
+        <input id="message" onkeypress="send_message(event)">
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+<script src="/socket-io/socket.io.js"></script>
+
+<script>
+    var server = io();
+    var msg = document.getElementById("message");
+
+    server.on('connect', function (s) {
+        var url = new URL(location.href);
+        room = url.searchParams.get('room') || 'main-room';
+        server.emit('join-room', room);
+
+        console.log('connected to room: ', room);
+    });
+
+    server.on('chat-msg', function (msg) {
+        var chat = document.getElementById("chat-box");
+        chat.insertAdjacentHTML('beforeend', '\n' + msg);
+    });
+
+    //create sendMessage function to send the incoming user text to the room.
+    function sendMessage(){
+        server.emit('incoming', {room: room, msg: msg.value});
+
+        msg.value = '';
+    }
+    //create a send_message functino to send the incoming user to sendMessage() if user pressed '13' aka enter.
+    function send_message(event) {
+        var char = event.which || event.keyCode;
+
+        if (char == '13') {
+            sendMessage();
+        }
+    }
+
+    document.getElementById('send-btn').onclick = function(){
+        sendMessage();
+    }
+
+</script>
+<!--create your own middleware to save all the chat messages and time stamp 'let today =new Date'-->
