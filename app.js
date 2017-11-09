@@ -76,9 +76,13 @@ client.on('disconnect', function () {
 // });
 //
 // module.exports = app;
-var PORT = process.env.PORT || 8000;
+var PORT = process.env.PORT || 1992;
 
 http.listen(PORT, function () {             //since we're using web socket, it will not be app.listen, but instead http.listen
-    console.log('Listening on port 8000');
+    console.log('Listening on port ' +PORT);
 });
 
+
+//set up landing page which allows you to select chatroom or create your own chatroom.
+//set up multi chatroom functions.
+//set up user-id for chatrooms.
