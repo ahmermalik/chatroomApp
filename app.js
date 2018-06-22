@@ -31,27 +31,41 @@ app.use('/users', users);
 app.use('/socket-io',
     express.static('node_modules/socket.io-client/dist'));
 
+
+
+
+
+
+
+
+
+
+//emit message once user connects to the socket.
 io.on('connection', function(client){
-    console.log('CONNECTED');
+    console.log('User has connected.');
 
 client.on('incoming', function(msg){
     io.emit('chat-msg', msg);
 });
 
 //joining a room.
-client.on('join-room', function(room){
+
+client.on('join-room', function(room, username){
     client.join(room, function() {
         console.log(client.rooms);
-        io.to(room).emit('chat-msg', '**new user joined**');
+        msg = {msg: '**new user joined**', user: 'SERVER'};
+        io.to(room).emit('chat-msg', msg);
     });
-    client.on('incoming', function(msg){
-        io.to(msg.room).emit('chat-msg', msg.msg);
+
+
+//emit message once user leaves the socket.
+client.on('disconnect', function () {
+    console.log('User has disconnected.');
     });
 });
 
-
-client.on('disconnect', function () {
-    console.log('EXITED');
+client.on('incoming', function(msg){
+    io.to(msg.room).emit('chat-msg', msg.msg);
     });
 });
 
@@ -76,7 +90,8 @@ client.on('disconnect', function () {
 // });
 //
 // module.exports = app;
-var PORT = process.env.PORT || 1992;
+
+var PORT = process.env.PORT || 8000;
 
 http.listen(PORT, function () {             //since we're using web socket, it will not be app.listen, but instead http.listen
     console.log('Listening on port ' +PORT);
