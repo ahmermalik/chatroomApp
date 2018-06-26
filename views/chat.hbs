@@ -5,47 +5,67 @@
     <pre id="chat-box"></pre>
 
     <div id="message-bar-container">
+        <label>Your name: <span id='label_name'>Default</span></label>
         <input id="message" onkeypress="send_message(event)">
         <button id="send-btn">Send</button>
+
+
     </div>
+
+
+
+    <label id="nick-label">Change username:</label>
+    <div id="nick-button" onclick="change_username(event)">Change</div>
+    <input id="nickfield" onkeypress="change_username(event)" maxlength="12">
+
+
 </div>
+<script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
 <script src="/socket-io/socket.io.js"></script>
 
 <script>
     var server = io();
-    var msg = document.getElementById("message");
-
+    var username = JSON.stringify('default');
+    var newusername =[];
     server.on('connect', function (s) {
+        let username = JSON.stringify('Guest_'+(server.id)[0]+(server.id)[1]+(server.id)[2]);
         var url = new URL(location.href);
         room = url.searchParams.get('room') || 'main-room';
-        server.emit('join-room', room);
+        server.emit('join-room', room, username);
 
-        console.log('connected to room: ', room);
+        document.getElementById("label_name").innerHTML = username;
+        console.log('connected to room: ', room, username);
     });
-
+    //the display name
     server.on('chat-msg', function (msg) {
         var chat = document.getElementById("chat-box");
-        chat.insertAdjacentHTML('beforeend', '\n' + msg);
+        chat.insertAdjacentHTML('beforeend', '\n' +msg, 'username');
     });
 
     //create sendMessage function to send the incoming user text to the room.
-    function sendMessage(){
-        server.emit('incoming', {room: room, msg: msg.value});
+    var msg = document.getElementById("message");
 
-        msg.value = '';
+    function sendMessage(){
+
     }
     //create a send_message function to send the incoming user to sendMessage() if user pressed '13' aka enter.
     function send_message(event) {
         var char = event.which || event.keyCode;
-
         if (char == '13') {
+            var msg = document.getElementById('message');
+
+            server.emit('incoming', {room: room, msg: msg.value, username})
+
+            msg.value = '';
+
             sendMessage();
         }
     }
-
+    //when the send button is clicked it calls sendMessage()
     document.getElementById('send-btn').onclick = function(){
         sendMessage();
     }
+
 
 </script>
 <!--create your own middleware to save all the chat messages and time stamp 'let today =new Date'-->

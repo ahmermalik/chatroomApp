@@ -33,6 +33,13 @@ app.use('/socket-io',
 
 
 
+class Users {
+    constructor (){
+        this.names = new Object;
+    }
+}
+
+users = new Users();
 
 
 
@@ -42,30 +49,33 @@ app.use('/socket-io',
 
 //emit message once user connects to the socket.
 io.on('connection', function(client){
-    console.log('User has connected.');
-
-client.on('incoming', function(msg){
-    io.emit('chat-msg', msg);
-});
-
-//joining a room.
-
-client.on('join-room', function(room, username){
-    client.join(room, function() {
-        console.log(client.rooms);
-        msg = {msg: '**new user joined**', user: 'SERVER'};
-        io.to(room).emit('chat-msg', msg);
-    });
+    console.log('Connectioned to ', client.id);
 
 
 //emit message once user leaves the socket.
 client.on('disconnect', function () {
     console.log('User has disconnected.');
     });
-});
 
 client.on('incoming', function(msg){
+    io.emit('chat-msg', msg);
+});
+
+
+
+//joining a room.
+
+client.on('join-room', function(room, username){
+    client.join(room, function() {
+        console.log(client.rooms);
+        let msg = {msg: '**new user joined**', user: 'SERVER'};
+        io.to(room).emit('chat-msg', msg);
+    });
+
+
+client.on('incoming', function(msg) {
     io.to(msg.room).emit('chat-msg', msg.msg);
+});
     });
 });
 
