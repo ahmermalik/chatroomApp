@@ -14,7 +14,7 @@ CONTENTS OF THIS FILE
 
 Introduction
 ------------
-The purpose of the project was to display my full stack capabilities utilizing several technologies such as the Node.js framework, ProstgreSQL database, Jquery, HTML, CSS. The project was done by Ahmer Malik.
+The purpose of the project was to display the capabilities utilizing socket.io through several technologies such as the Node.js framework, Jquery, HTML, CSS. The project was done by Ahmer Malik.
 
 
 
