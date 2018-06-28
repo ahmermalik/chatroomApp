@@ -14,9 +14,9 @@
 
 
 
-    <label id="nick-label">Change username:</label>
-    <div id="nick-button" onclick="change_username(event)">Change</div>
-    <input id="nickfield" onkeypress="change_username(event)" maxlength="12">
+
+
+
 
 
 </div>
@@ -25,13 +25,15 @@
 
 <script>
     var server = io();
-    var username = JSON.stringify('default');
+    var username = 'default';
     var newusername =[];
     server.on('connect', function (s) {
         let username = JSON.stringify('Guest_'+(server.id)[0]+(server.id)[1]+(server.id)[2]);
+        newusername.push(username);
+
         var url = new URL(location.href);
         room = url.searchParams.get('room') || 'main-room';
-        server.emit('join-room', room, username);
+        server.emit('join-room', room, newusername);
 
         document.getElementById("label_name").innerHTML = username;
         console.log('connected to room: ', room, username);
@@ -43,18 +45,19 @@
     });
 
     //create sendMessage function to send the incoming user text to the room.
-    var msg = document.getElementById("message");
+
 
     function sendMessage(){
-
+        var msg = document.getElementById("message");
+        server.emit('incoming', newusername)
     }
     //create a send_message function to send the incoming user to sendMessage() if user pressed '13' aka enter.
     function send_message(event) {
         var char = event.which || event.keyCode;
         if (char == '13') {
-            var msg = document.getElementById('message');
+            let msg = document.getElementById('message');
 
-            server.emit('incoming', {room: room, msg: msg.value, username})
+            server.emit('incoming', {room: room, msg: msg.value, newusername})
 
             msg.value = '';
 

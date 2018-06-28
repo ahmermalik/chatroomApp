@@ -69,7 +69,7 @@ client.on('join-room', function(room, username){
     client.join(room, function() {
         console.log(client.rooms);
         let msg = {msg: '**new user joined**', user: 'SERVER'};
-        io.to(room).emit('chat-msg', msg);
+        io.to(room).emit('chat-msg', {msg, username});
     });
 
 
