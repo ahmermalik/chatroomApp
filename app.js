@@ -31,21 +31,7 @@ app.use('/users', users);
 app.use('/socket-io',
     express.static('node_modules/socket.io-client/dist'));
 
-
-
-class Users {
-    constructor (){
-        this.names = new Object;
-    }
-}
-
-users = new Users();
-
-
-
-
-
-
+//
 
 //emit message once user connects to the socket.
 io.on('connection', function(client){
@@ -73,33 +59,14 @@ client.on('join-room', function(room, username){
     });
 
 
+
+
+
 client.on('incoming', function(msg) {
     io.to(msg.room).emit('chat-msg', msg.msg);
 });
     });
 });
-
-
-
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-//
-// // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-//
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
-//
-// module.exports = app;
 
 var PORT = process.env.PORT || 8000;
 

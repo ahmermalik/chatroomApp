@@ -13,12 +13,6 @@
     </div>
 
 
-
-
-
-
-
-
 </div>
 <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
 <script src="/socket-io/socket.io.js"></script>
@@ -26,9 +20,9 @@
 <script>
     var server = io();
     var username = 'default';
-    var newusername =[];
+    var newusername = [];
     server.on('connect', function (s) {
-        let username = JSON.stringify('Guest_'+(server.id)[0]+(server.id)[1]+(server.id)[2]);
+        let username = JSON.stringify('Guest_' + (server.id)[0] + (server.id)[1] + (server.id)[2]);
         newusername.push(username);
 
         var url = new URL(location.href);
@@ -41,31 +35,33 @@
     //the display name
     server.on('chat-msg', function (msg) {
         var chat = document.getElementById("chat-box");
-        chat.insertAdjacentHTML('beforeend', '\n' +msg, 'username');
+        chat.insertAdjacentHTML('beforeend', '\n' + msg, 'username');
     });
 
     //create sendMessage function to send the incoming user text to the room.
 
 
-    function sendMessage(){
+    function sendMessage() {
         var msg = document.getElementById("message");
         server.emit('incoming', newusername)
     }
+
     //create a send_message function to send the incoming user to sendMessage() if user pressed '13' aka enter.
     function send_message(event) {
         var char = event.which || event.keyCode;
         if (char == '13') {
             let msg = document.getElementById('message');
 
-            server.emit('incoming', {room: room, msg: msg.value, newusername})
+            server.emit('incoming', {room: room, msg: msg.value, newusername: newusername})
 
             msg.value = '';
 
             sendMessage();
         }
     }
+
     //when the send button is clicked it calls sendMessage()
-    document.getElementById('send-btn').onclick = function(){
+    document.getElementById('send-btn').onclick = function () {
         sendMessage();
     }
 
