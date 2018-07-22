@@ -1,25 +1,15 @@
 {
-  "name": "9.chatapp",
-  "version": "0.0.0",
-  "private": true,
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.15.5",
-    "hbs": "~4.0.1",
-    "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5",
-    "socket.io": "^2.0.4"
-  },
-  "devDependencies": {
-    "nodemon": "^1.12.1"
-  },
-  "description": "chat app utilizing socket io",
-  "main": "app.js",
-  "author": "ahmer malik",
-  "license": "ISC"
+    "express": "^4.16.3",
+    "ws": "^5.2.2"
+  }
 }
